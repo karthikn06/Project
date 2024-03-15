@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management</title>
+<style>
+ body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.buttons {
+    margin-bottom: 20px;
+}
+
+.buttons button {
+    margin-right: 10px;
+}
+
+
+#add-employee-form {
+    margin-bottom: 20px;
+}
+
+
+#add-employee-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#add-employee-form input[type="text"],
+#add-employee-form input[type="date"] {
+    width: calc(100% - 10px);
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+#add-employee-form button[type="submit"] {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#add-employee-form button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+button {
+    padding: 8px 16px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #d32f2f;
+}
+
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>Employee Management</h1>
+        <div class="buttons">
+            <button onclick="showAddEmployeeForm()">Add Employee</button>
+            <button onclick="showEmployeeTable()">View Employee</button>
+            <button onclick="showLastOrders()">Orders</button>
+        </div>
+        <div id="add-employee-form" style="display: none;">
+            <h2>Add Employee</h2>
+            <form onsubmit="addEmployee(event)">
+                <label for="name">Name:</label>
+                <input type="text" id="name" required><br>
+                <label for="phone">Phone Number:</label>
+                <input type="text" id="phone" required><br>
+                <label for="address">Address:</label>
+                <input type="text" id="address" required><br>
+                <label for="department">Department:</label>
+                <input type="text" id="department" required><br>
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" required><br>
+                <label for="joiningDate">Joining Date:</label>
+                <input type="date" id="joiningDate" required><br>
+                <button type="submit">Add</button>
+            </form>
+        </div>
+        <div id="employee-table" style="display: none;">
+            <h2>Employee Table</h2>
+            <input type="text" id="searchInput" onkeyup="searchEmployee()" placeholder="Search by Name or ID">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Phone Number</th>
+                        <th>Address</th>
+                        <th>Department</th>
+                        <th>Date of Birth</th>
+                        <th>Joining Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="employee-table-body">
+                    <!-- Employee data will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+
+    <script>
+        // Sample employee data (can be fetched from an API or database)
+let employees = [
+    
+];
+
+// Function to populate the table with employee data
+function populateEmployeeTable() {
+    const tableBody = document.getElementById('employee-table-body');
+    tableBody.innerHTML = '';
+
+    employees.forEach(employee => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${employee.id}</td>
+            <td>${employee.name}</td>
+            <td>${employee.phoneNumber}</td>
+            <td>${employee.address}</td>
+            <td>${employee.department}</td>
+            <td>${employee.dob}</td>
+            <td>${employee.joiningDate}</td>
+            <td><button onclick="removeEmployee(${employee.id})">Remove</button></td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// Function to show the Add Employee form and hide other elements
+function showAddEmployeeForm() {
+    document.getElementById('add-employee-form').style.display = 'block';
+    document.getElementById('employee-table').style.display = 'none';
+}
+
+// Function to show the Employee Table and hide other elements
+function showEmployeeTable() {
+    document.getElementById('add-employee-form').style.display = 'none';
+    document.getElementById('employee-table').style.display = 'block';
+    populateEmployeeTable();
+}
+
+// Function to add a new employee
+function addEmployee(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
+    const address = document.getElementById('address').value;
+    const department = document.getElementById('department').value;
+    const dob = document.getElementById('dob').value;
+    const joiningDate = document.getElementById('joiningDate').value;
+
+    const id = employees.length + 1; // Generate ID (in real scenarios, this should be handled differently)
+
+    employees.push({ id, name, phoneNumber: phone, address, department, dob, joiningDate });
+
+    document.getElementById('name').value = '';
+    document.getElementById('phone').value = '';
+    document.getElementById('address').value = '';
+    document.getElementById('department').value = '';
+    document.getElementById('dob').value = '';
+    document.getElementById('joiningDate').value = '';
+
+    showEmployeeTable();
+}
+
+// Function to remove an employee by ID
+function removeEmployee(id) {
+    employees = employees.filter(employee => employee.id !== id);
+    populateEmployeeTable();
+}
+
+// Function to search for an employee by name or ID
+function searchEmployee() {
+    const searchInput = document.getElementById('searchInput').value.toLowerCase();
+    const filteredEmployees = employees.filter(employee => {
+        return (
+            employee.name.toLowerCase().includes(searchInput) ||
+            employee.id.toString().includes(searchInput)
+        );
+    });
+    const tableBody = document.getElementById('employee-table-body');
+    tableBody.innerHTML = '';
+
+    filteredEmployees.forEach(employee => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${employee.id}</td>
+            <td>${employee.name}</td>
+            <td>${employee.phoneNumber}</td>
+            <td>${employee.address}</td>
+            <td>${employee.department}</td>
+            <td>${employee.dob}</td>
+            <td>${employee.joiningDate}</td>
+            <td><button onclick="removeEmployee(${employee.id})">Remove</button></td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+function showLastOrders() {
+            // Redirect to the LastOrder.html page
+            window.location.href = 'LastOrder.html';
+        }
+
+    </script>
+</body>
+</html>
