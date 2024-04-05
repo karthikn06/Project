@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,7 +16,7 @@
 }
 
 body {
-   
+    /* background: url('menu.png') no-repeat center; */
     width: 100%;
     height: 500px;
     font-family: 'Montserrat', sans-serif;
@@ -440,9 +442,7 @@ a[href="Menu.jsp"] {
     margin-right: 20px;
     cursor: pointer;
 }
-    
     </style>
-   
     <link
         href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@1,700&family=Montserrat:wght@200;300;400&display=swap"
         rel="stylesheet">
@@ -460,20 +460,12 @@ a[href="Menu.jsp"] {
         </nav>
         <div id="banner">
             <h1>FoodEase</h1>
-            <p>"Hungry? food ease,instant relief!"</p>
+            <p>"Hungry? food ease,instant releief!"</p>
         </div>
-        <div>
-            <center>
-                <a href="Login.jsp" class="Log-in" >Log In</a>&nbsp;&nbsp;&nbsp;
-                <a href="Signup.jsp" class="Sign-up" >Sign Up</a>
-              
-             </center>
+       
         </div>
             
     </header>
-    <!-- <section>
-    </section> -->
-    <!-- <section > -->
     
 
     <section id="collection">
